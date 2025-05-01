@@ -8,13 +8,12 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-
-function Home(): React.JSX.Element {
-    const navigation = useNavigation()
+const Home =()=>{
+    const navigation = useNavigation<any>()
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={()=>{navigation.navigate('SplashScreen')}}>
-              <Text>Go-Home</Text>
+      <TouchableOpacity onPress={()=>{navigation.navigate('Splash')}}>
+              <Text>Go-Splash</Text>
              </TouchableOpacity>
     </View>
   );
@@ -23,7 +22,9 @@ function Home(): React.JSX.Element {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "yellow"
+    backgroundColor: "yellow",
+     alignItems: 'center',
+    justifyContent: 'center'
   }
 });
 
