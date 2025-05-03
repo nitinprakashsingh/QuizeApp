@@ -7,6 +7,7 @@ import {
   Image
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import InProgressSection from '../../Component/InProgressSection/InProgressSection';
 
 const Home =()=>{
     const navigation = useNavigation<any>()
@@ -25,7 +26,7 @@ const Home =()=>{
        />
        <Text style={styles.headerText}>The Teacher Quiz</Text>
      </View>
-     
+      <InProgressSection/>
     </View>
   );
 }

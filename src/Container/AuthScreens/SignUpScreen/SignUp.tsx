@@ -86,6 +86,8 @@ const SignUp = () => {
           <SubmitButton
             onPress={() => submitButtonClicked()}
             title='Submit'
+            style={styles.submitButton}
+            textStyle={styles.submiText}
           />
         </ScrollView>
       </View>
@@ -126,6 +128,22 @@ const styles = StyleSheet.create({
     fontWeight: 800,
     fontSize: 25,
     lineHeight: 32,
+  },
+  submitButton: {
+    backgroundColor: '#00316B',
+    padding: 10,
+    borderRadius: 10,
+    alignItems: 'center',
+    height: 45,
+    marginLeft: 15,
+    marginRight: 15,
+    marginTop: 20,
+    marginBottom: 15
+  },
+  submiText: {
+      color: 'white',
+      fontSize: 16,
+      fontWeight: 'bold',
   }
 });
 export default SignUp;
