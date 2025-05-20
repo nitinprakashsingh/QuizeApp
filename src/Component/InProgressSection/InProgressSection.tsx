@@ -1,7 +1,8 @@
-import React from 'react';
-import { View, Text, StyleSheet, FlatList } from 'react-native';
+import React,{useState,useEffect} from 'react';
+import { View, Text, StyleSheet, FlatList,Image,Dimensions } from 'react-native';
 import SubmitButton from '../Button/submitButton';
 import LinearGradient from 'react-native-linear-gradient';
+import styles from './Style';
 
 
 const InProgressSection: React.FC = () => {
@@ -22,7 +23,10 @@ const InProgressSection: React.FC = () => {
         marks: number,
         FirstLetter: string,
     }
-  
+    
+     useEffect(()=>{
+    },[])
+
     const renderComponent = ({item}: {item: itemProps})=>(
         <View style={styles.renderComponent}>
             <Text style={styles.markStyle}>
@@ -38,17 +42,30 @@ const InProgressSection: React.FC = () => {
         locations={[0, 0.34, 0.67, 1]}
         style={styles.container}
       >
-      
             <View style={styles.topView}>
                 <Text style={styles.challengeText}>Your Monthly Challenge</Text>
                 <View style={styles.flatListContainer}>
                    <FlatList
+                   showsHorizontalScrollIndicator={false}
                    horizontal={true}
                    data={dataArray}
                    renderItem={renderComponent}
                    keyExtractor={(item)=> item.id.toString()}
                    />
                 </View>
+            </View>
+            <View style={styles.middleView}>
+                <View style={styles.ImageContainer}>
+                 <Image
+                       source={require('../../Assets/Images/subject/calculator.png')}
+                       style={styles.imageStyles}
+                       resizeMode="contain"
+                       />
+                       </View>
+                       <View style={styles.textContainer}>
+                        <Text style={styles.titleText}>Math</Text>
+                        <Text>Long Text in tow lines i need to write more text so that it become more than one line</Text>
+                       </View>
             </View>
             <SubmitButton
              title='Complete the Challenge'
@@ -60,85 +77,5 @@ const InProgressSection: React.FC = () => {
     );
 };
 
-const styles = StyleSheet.create({
-    container: {
-        borderWidth: 0.7,
-        borderColor: "#C6A500",
-        height: 200,
-        marginTop: -60,
-        marginLeft: 15,
-        marginRight: 15,
-        borderRadius: 15,
-        //backgroundColor:"#EAD56C"
-        },
-    title: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        marginBottom: 20,
-    },
-    compteButton: {
-        backgroundColor: '#00316B',
-        padding: 10,
-        borderRadius: 10,
-        alignItems: 'center',
-        height: 40,
-        marginLeft: 15,
-        marginRight: 15,
-      },
-      completText: {
-        fontSize: 14,
-        lineHeight: 18,
-        color: "white",
-        fontWeight:400,
-        textAlign: 'center'
-      },
-      topView: {
-        marginLeft: 7,
-        marginRight: 7,
-        borderColor: "green",
-        justifyContent: 'space-between',
-        padding: 8,
-        flexDirection:'row',
-        height: 70,
-      },
-      challengeText: {
-        fontSize: 14,
-        fontWeight: 600,
-        width: "30%",
-        },
-
-        drowLine:{
-            height: 0.9,
-            width: "100%",
-            backgroundColor: "gray",
-            marginVertical: 2,
-        },
-        renderComponent:{
-            marginVertical: 2,
-            marginHorizontal: 5,
-            paddingVertical: 2,
-            borderRadius: 5,
-            backgroundColor: "#C3A200"
-        },
-        flatListContainer:{
-            width: "50%",
-            alignItems: "flex-end"
-        },
-        styleFirstLetter:{
-            fontSize: 12,
-            lineHeight: 17,
-            color: "black",
-            textAlign: 'center',
-            paddingHorizontal: 5,
-            width: 30
-        },
-        markStyle:{
-            fontSize: 13,
-            lineHeight: 17,
-            fontWeight: "600",
-            padding:2,
-            textAlign: 'center'
-        }
-});
 
 export default InProgressSection;
