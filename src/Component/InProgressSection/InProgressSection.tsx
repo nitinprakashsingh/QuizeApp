@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from 'react';
-import { View, Text, StyleSheet, FlatList,Image,Dimensions } from 'react-native';
+import { View, Text, FlatList,Image,} from 'react-native';
 import SubmitButton from '../Button/submitButton';
 import LinearGradient from 'react-native-linear-gradient';
 import styles from './Style';
@@ -16,9 +16,11 @@ const InProgressSection: React.FC = () => {
         {id: 8, subject: "Science",marks: 11,FirstLetter: "S"},
         {id: 9, subject: "Social Science",marks: 99,FirstLetter: "SS"},
     ]
+
     const handleCompleteChallenge = () => {
         console.log('Challenge Completed!');
     };
+    
     type itemProps ={
         marks: number,
         FirstLetter: string,

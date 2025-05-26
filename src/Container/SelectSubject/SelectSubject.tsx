@@ -8,8 +8,8 @@ import {
   ScrollView
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import Input from '../../../Component/TextInput/Input';
-import SubmitButton from '../../../Component/Button/submitButton';
+import Input from '../../Component/TextInput/Input';
+import SubmitButton from '../../Component/Button/submitButton';
 
 
 const SignUp = () => {
@@ -26,13 +26,13 @@ const SignUp = () => {
    if(name && mobileNumber && gender && state && district && block && school !== " "){
       console.log("remove the text")
    }else{
-      navigation.replace('MainTabs');
+      navigation.navigate("Home")
    }
   }
   return (
     <View style={styles.container}>
       <Image
-        source={require('../../../Assets/SplashScreen/background.png')}
+        source={require('../../Assets/SplashScreen/background.png')}
         style={styles.imageStye}
         resizeMode="cover"
       >

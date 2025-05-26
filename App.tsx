@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 //import AppRoute from './src/Route/Rought'
-import RootStack from './src/Route/Rought';
+import RootStack from './src/Route/AuthStack';
 
 
 
