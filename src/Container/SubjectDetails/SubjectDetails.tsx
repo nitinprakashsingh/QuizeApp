@@ -1,10 +1,10 @@
 import React from "react";
-import { StyleSheet, Image, View, Text, FlatList } from "react-native";
+import { StyleSheet, Image, TouchableOpacity, Text, FlatList,View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 
 const SubjectDetails = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<any>()
   var topics = [
     { id: 1, name: "Algebrea" },
     { id: 2, name: "Geometry" },
@@ -43,11 +43,18 @@ const SubjectDetails = () => {
     }
   const renderComponent = ({ item }: { item: itemProps}) => {
     return(
-    <View style={styles.renderComponent}>
+    <TouchableOpacity style={styles.renderComponent}
+    onPress={()=>navigateToQuestionScreen(item.name)}
+    >
       <Text style={styles.titleTextStyle}>{item.name}</Text>
-    </View>
+    </TouchableOpacity>
     )
 
+  }
+  const navigateToQuestionScreen=(name: string)=>{
+    navigation.navigate("QuestionScreen",{
+      topicName: name
+    })
   }
 
   return (
