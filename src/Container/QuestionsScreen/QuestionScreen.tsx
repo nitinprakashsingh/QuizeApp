@@ -60,8 +60,6 @@ const QuestionScreen = ({ route }: { route: QuestionScreenRouteProp }) => {
   }));
 };
 
-
-
     return (
         <View style={styles.container}>
             <View style={styles.headerView}>

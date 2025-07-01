@@ -49,8 +49,8 @@ const SubjectDetails = () => {
       <Text style={styles.titleTextStyle}>{item.name}</Text>
     </TouchableOpacity>
     )
-
   }
+  
   const navigateToQuestionScreen=(name: string)=>{
     navigation.navigate("QuestionScreen",{
       topicName: name
