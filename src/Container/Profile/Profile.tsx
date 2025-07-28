@@ -1,89 +1,156 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { use, useState } from 'react';
 import {
   StyleSheet,
   View,
   Image,
   Text,
-  ScrollView,
-  FlatList
+  TouchableOpacity,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import Input from '../../Component/TextInput/Input';
-import SubmitButton from '../../Component/Button/submitButton';
-import BouncyCheckbox from "react-native-bouncy-checkbox";
+import { launchCamera, launchImageLibrary, Asset } from 'react-native-image-picker';
+import { Alert, Platform, ActionSheetIOS } from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
 
+const STATIC_PROFILE = {
+  name: 'Nitin Prakash Singh',
+  totalTests: 12,
+  passedTest : 10,
+  mobile: '+91 9876543210',
+  email: 'john.doe@example.com',
+  image: null, // Default image can be set here
+};
 
-const SignUp = () => {
-  const navigation = useNavigation<any>()
-  const [name, setName] = useState("")
-  const [mobileNumber, setMobileNumber] = useState("")
-  const [gender, setGender] = useState("")
-  const [state, setState] = useState("")
-  const [district, setDistrict] = useState("")
-  const [block, setBlock] = useState("")
-  const [school, setSchool] = useState("")
-  const [data, setData] = useState<any>([])
+const Profile = () => {
+  const [profile, setProfile] = useState(STATIC_PROFILE);
+  const [image, setImage] = useState<string | null>(null);
+  const isFocused = useIsFocused
 
+  const onImagePicked = (assets: Asset[] | undefined) => {
+    if (assets && assets.length > 0 && assets[0].uri) {
+      setImage(assets[0].uri);
+    }
+  };
 
+  const openCamera = () => {
+    launchCamera({ mediaType: 'photo', quality: 0.7 }, (response) => {
+      if (response.didCancel) return;
+      if (response.errorCode) {
+        Alert.alert('Error', response.errorMessage || 'Camera error');
+        return;
+      }
+      onImagePicked(response.assets);
+    });
+  };
 
-  const fetchData = async () => {
-    var result = await fetch("https://dummyjson.com/todos").then((response) => response.json())
-    console.log(result)
-    setData(result.todos)
-  }
-  useEffect(() => {
-    fetchData()
-  }, [])
+  const openGallery = () => {
+    launchImageLibrary({ mediaType: 'photo', quality: 0.7 }, (response) => {
+      if (response.didCancel) return;
+      if (response.errorCode) {
+        Alert.alert('Error', response.errorMessage || 'Gallery error');
+        return;
+      }
+      onImagePicked(response.assets);
+    });
+  };
 
-  const renderItem = ({ item }: { item: any }) => (
-    <View style={styles.flatlistView}>
-      <Text style={styles.todoText}>{item.todo}</Text>
-      <BouncyCheckbox 
-      isChecked={item.completed}
-      />
-    </View>
-  )
+  const pickImage = () => {
+    if (!isFocused) return;
+    if (Platform.OS === 'ios') {
+      ActionSheetIOS.showActionSheetWithOptions(
+        {
+          options: ['Cancel', 'Take Photo', 'Choose from Library'],
+          cancelButtonIndex: 0,
+        },
+        (buttonIndex) => {
+          if (buttonIndex === 1) openCamera();
+          else if (buttonIndex === 2) openGallery();
+        }
+      );
+    } else {
+      console.log("in the else part")
+      Alert.alert(
+        'Select Image',
+        'Choose an option',
+        [
+          { text: 'Camera', onPress: openCamera },
+          { text: 'Gallery', onPress: openGallery },
+          { text: 'Cancel', style: 'cancel' },
+        ]
+      );
+    }
+  };
 
   return (
     <View style={styles.container}>
-      <FlatList
-        data={data}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id.toString()}
-      />
+      <TouchableOpacity onPress={pickImage} style={styles.imageContainer}>
+        <Image
+          source={
+            image
+              ? { uri: image }
+              : require('../../Assets/Images/header/illustration.png')
+          }
+          style={styles.profileImage}
+        />
+        <Text style={styles.changeImageText}>Change Image</Text>
+      </TouchableOpacity>
+      <View style={styles.infoContainer}>
+        <Text style={styles.label}>Name:</Text>
+        <Text style={styles.value}>{profile.name}</Text>
+        <Text style={styles.label}>Total Tests Given:</Text>
+        <Text style={styles.value}>{profile.totalTests}</Text>
+        <Text style={styles.label}>Total Passed Test:</Text>
+        <Text style={styles.value}>{profile.passedTest}</Text>
+        <Text style={styles.label}>Mobile No:</Text>
+        <Text style={styles.value}>{profile.mobile}</Text>
+        <Text style={styles.label}>Email ID:</Text>
+        <Text style={styles.value}>{profile.email}</Text>
+      </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
-    paddingTop: 20,
-    paddingBottom: 20,
+    backgroundColor: 'white',
+    alignItems: 'center',
+    paddingTop: 40,
   },
-  flatlistView: {
-    marginVertical: 5,
-    marginHorizontal: 15,
-    paddingTop: 5,
-    paddingBottom: 5,
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-    borderWidth: 0.6,
-    borderRadius: 9,
-    borderColor: 'gray',
-    paddingLeft: 10,
+  imageContainer: {
+    alignItems: 'center',
+    marginBottom: 30,
   },
-  todoText: {
+  profileImage: {
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    backgroundColor: '#eee',
+  },
+  changeImageText: {
+    color: '#007bff',
+    marginTop: 8,
     fontSize: 14,
-    fontWeight: "600",
-    lineHeight: 20,
-    width: "70%",
   },
-  checkbox: {
-    height: 20,
-    width: 30,
-  }
+  infoContainer: {
+    width: '80%',
+    backgroundColor: '#f8f8f8',
+    borderRadius: 12,
+    padding: 20,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 2,
+  },
+  label: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    marginTop: 10,
+  },
+  value: {
+    fontSize: 16,
+    marginBottom: 5,
+    color: '#333',
+  },
 });
-export default SignUp;
+
+export default Profile;
